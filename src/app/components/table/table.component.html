@@ -1,0 +1,180 @@
+<div class="mb-4">
+  <div class="flex justify-between">
+    <input
+      type="text"
+      class="border border-gray-300 rounded-md p-2 outline-none w-[40%] min-w-[300px]"
+      placeholder="Search..."
+      (input)="log($event.target)"
+    />
+  </div>
+
+  <table class="table bg-white shadow-lg rounded-md mt-5">
+    <thead>
+      <tr>
+        <th
+          scope="col"
+          class="text-sm text-gray-600 font-bold text-center cursor-pointer"
+          (click)="
+            sortFn({
+              byId: true,
+              byEmployee: false,
+              byPhone: false,
+              byAge: false,
+              byDOB: false,
+              bySalary: false,
+              byAddress: false
+            })
+          "
+        >
+          #
+          <span> </span>
+        </th>
+
+        <th
+          scope="col"
+          class="text-sm text-gray-600 font-bold cursor-pointer"
+          (click)="
+            sortFn({
+              byId: false,
+              byEmployee: true,
+              byPhone: false,
+              byAge: false,
+              byDOB: false,
+              bySalary: false,
+              byAddress: false
+            })
+          "
+        >
+          EMPLOYEE
+        </th>
+        <th
+          scope="col"
+          class="text-sm text-gray-600 font-bold cursor-pointer"
+          (click)="
+            sortFn({
+              byId: false,
+              byEmployee: false,
+              byPhone: true,
+              byAge: false,
+              byDOB: false,
+              bySalary: false,
+              byAddress: false
+            })
+          "
+        >
+          PHONE
+        </th>
+        <th
+          scope="col"
+          class="text-sm text-gray-600 font-bold cursor-pointer"
+          (click)="
+            sortFn({
+              byId: false,
+              byEmployee: false,
+              byPhone: false,
+              byAge: true,
+              byDOB: false,
+              bySalary: false,
+              byAddress: false
+            })
+          "
+        >
+          AGE
+        </th>
+        <th
+          scope="col"
+          class="text-sm text-gray-600 font-bold cursor-pointer"
+          (click)="
+            sortFn({
+              byId: false,
+              byEmployee: false,
+              byPhone: false,
+              byAge: false,
+              byDOB: true,
+              bySalary: false,
+              byAddress: false
+            })
+          "
+        >
+          DOB
+        </th>
+        <th
+          scope="col"
+          class="text-sm text-gray-600 font-bold cursor-pointer"
+          (click)="
+            sortFn({
+              byId: false,
+              byEmployee: false,
+              byPhone: false,
+              byAge: false,
+              byDOB: false,
+              bySalary: true,
+              byAddress: false
+            })
+          "
+        >
+          SALARY
+        </th>
+        <th
+          scope="col"
+          class="text-sm text-gray-600 font-bold cursor-pointer"
+          (click)="
+            sortFn({
+              byId: false,
+              byEmployee: false,
+              byPhone: false,
+              byAge: false,
+              byDOB: false,
+              bySalary: false,
+              byAddress: true
+            })
+          "
+        >
+          ADDRESS
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let data of tableData
+            | paginate
+              : {
+                  itemsPerPage: tableSize,
+                  currentPage: page,
+                  totalItems: count
+                }
+        "
+      >
+        <th scope="row" class="text-center">{{ data.id }}</th>
+        <td>
+          <div class="flex">
+            <img
+              [src]="data.imageUrl"
+              alt="user image"
+              class="w-12 h-12 rounded-md"
+            />
+            <div class="ml-4">
+              <p class="text-lg font-semibold">
+                {{ data.firstName }} {{ data.lastName }}
+              </p>
+              <p class="text-sm text-gray-500 lowercase">{{ data.email }}</p>
+            </div>
+          </div>
+        </td>
+        <td>{{ data.contactNumber }}</td>
+        <td>{{ data.age }}</td>
+        <td>{{ data.dob }}</td>
+        <td>{{ data.salary | currency : "USD" }}</td>
+        <td>{{ data.address }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls
+    class="flex justify-center mt-4"
+    previousLabel="prev"
+    nextLabel="next"
+    (pageChange)="onTableDataChange($event)"
+  >
+  </pagination-controls>
+</div>
